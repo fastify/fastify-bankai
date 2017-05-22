@@ -1,0 +1,38 @@
+{
+  "name": "fastify-assets-compiler",
+  "version": "0.1.0",
+  "description": "Bankai assets compiler for Fastify",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastify/fastify-assets-compiler.git"
+  },
+  "keywords": [
+    "browserify",
+    "bankai",
+    "assets",
+    "html",
+    "css",
+    "js",
+    "fastify",
+    "compile"
+  ],
+  "author": "Tomas Della Vedova - @delvedor (http://delved.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fastify/fastify-assets-compiler/issues"
+  },
+  "homepage": "https://github.com/fastify/fastify-assets-compiler#readme",
+  "devDependencies": {
+    "fastify": "^0.20.0",
+    "standard": "^10.0.2",
+    "tap": "^10.3.2"
+  },
+  "dependencies": {
+    "bankai": "^7.6.2",
+    "fastify-plugin": "^0.1.0"
+  }
+}

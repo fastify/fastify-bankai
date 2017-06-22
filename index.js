@@ -2,7 +2,7 @@
 
 const assert = require('assert')
 const createReadStream = require('fs').createReadStream
-const join = require('path').join
+const resolve = require('path').resolve
 const fp = require('fastify-plugin')
 const bankai = require('bankai')
 
@@ -14,8 +14,8 @@ function assetsCompiler (fastify, opts, next) {
   if (opts.options) assert.ok(typeof opts.options === 'object', 'options must be an object')
 
   const html = !!opts.html
-  const htmlPath = join(process.cwd(), opts.html || '')
-  const assets = bankai(join(process.cwd(), opts.entryFile), opts.options || {})
+  const htmlPath = resolve(opts.html || '')
+  const assets = bankai(resolve(opts.entryFile || ''), opts.options || {})
 
   fastify.get(opts.baseURL || '/', (req, reply) => {
     reply

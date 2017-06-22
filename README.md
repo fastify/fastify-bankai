@@ -1,14 +1,12 @@
-# fastify-assets-compiler
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/fastify/fastify-assets-compiler.svg)](https://greenkeeper.io/)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)  [![Build Status](https://travis-ci.org/fastify/fastify-assets-compiler.svg?branch=master)](https://travis-ci.org/fastify/fastify-assets-compiler)
+# fastify-pigeon
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)  [![Build Status](https://travis-ci.org/fastify/fastify-pigeon.svg?branch=master)](https://travis-ci.org/fastify/fastify-pigeon) [![Greenkeeper badge](https://badges.greenkeeper.io/fastify/fastify-assets-compiler.svg)](https://greenkeeper.io/)
 
 If you need to compile (browserify style!) your code, this plugin is for you!  
 Internally it uses [bankai](https://github.com/yoshuawuyts/bankai), so refer to its documentation for the options.
 
 ## Install
 ```
-npm i fastify-assets-compiler --save
+npm i fastify-pigeon --save
 ```
 
 ## Usage
@@ -16,7 +14,7 @@ Simply require this plugin, pass the entry file and you are done!
 ```js
 const fastify = require('fastify')()
 
-fastify.register(require('fastify-assets-compiler'), {
+fastify.register(require('fastify-pigeon'), {
   entryFile: './client.js'
 })
 

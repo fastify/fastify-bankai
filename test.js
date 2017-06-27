@@ -6,13 +6,15 @@ const fs = require('fs')
 const Fastify = require('fastify')
 const html = fs.readFileSync('./index.html', 'utf8')
 
+const options = { watch: false }
+
 test('Should expose a route with the assets', t => {
   t.plan(9)
 
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js' }
+    { entryFile: './client.js', options }
   )
 
   fastify.inject({
@@ -55,7 +57,7 @@ test('should handle a base url', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', baseURL: '/test' }
+    { entryFile: './client.js', baseURL: '/test', options }
   )
 
   fastify.inject({
@@ -73,7 +75,7 @@ test('should handle a given html file', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', html: './index.html' }
+    { entryFile: './client.js', html: './index.html', options }
   )
 
   fastify.inject({
@@ -91,7 +93,7 @@ test('should return 404 if an assets is not found', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js' }
+    { entryFile: './client.js', options }
   )
 
   fastify.inject({
@@ -99,6 +101,5 @@ test('should return 404 if an assets is not found', t => {
     method: 'GET'
   }, res => {
     t.equal(res.statusCode, 404)
-    process.exit(0)
   })
 })

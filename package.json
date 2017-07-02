@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/fastify/fastify-pigeon#readme",
   "devDependencies": {
-    "fastify": "^0.23.0",
+    "fastify": "^0.24.0",
     "standard": "^10.0.2",
     "tap": "^10.3.2"
   },

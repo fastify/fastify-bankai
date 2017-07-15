@@ -27,12 +27,13 @@
   },
   "homepage": "https://github.com/fastify/fastify-pigeon#readme",
   "devDependencies": {
-    "fastify": "^0.23.0",
+    "fastify": "^0.25.1",
+    "shot": "^3.4.2",
     "standard": "^10.0.2",
-    "tap": "^10.3.2"
+    "tap": "^10.7.0"
   },
   "dependencies": {
-    "bankai": "^8.0.0",
+    "bankai": "^8.1.1",
     "fastify-plugin": "^0.1.0"
   }
 }

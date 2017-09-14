@@ -7,20 +7,28 @@ const fp = require('fastify-plugin')
 const bankai = require('bankai')
 
 function assetsCompiler (fastify, opts, next) {
-  assert(opts.entryFile, 'Missing entry file!')
-  assert.ok(typeof opts.entryFile === 'string', 'entryFile must be a string')
-  if (opts.html) assert.ok(typeof opts.html === 'string', 'html must be a string')
-  if (opts.baseURL) assert.ok(typeof opts.baseURL === 'string', 'baseURL must be a string')
-  if (opts.options) assert.ok(typeof opts.options === 'object', 'options must be an object')
+  opts.options = opts.options || {}
+  if (!opts.entry) {
+    return next(new Error('Missing entry file!'))
+  }
+  if (typeof opts.entry !== 'string') {
+    return next(new Error('entry must be a string'))
+  }
+  if (opts.html && typeof opts.html !== 'string') {
+    return next(new Error('html must be a string'))
+  }
+  if (typeof opts.options !== 'object') {
+    return next(new Error('options must be an object'))
+  }
 
   const html = !!opts.html
   const htmlPath = resolve(opts.html || '')
-  const assets = bankai(resolve(opts.entryFile || ''), opts.options || {})
+  const assets = bankai(resolve(opts.entry || ''), opts.options)
 
   fastify.get(opts.baseURL || '/', (req, reply) => {
     reply
       .header('Content-Type', 'text/html')
-      .send(html ? createReadStream(htmlPath) : assets.html())
+      .send(html ? createReadStream(htmlPath) : assets.html(req.req, req.res))
   })
 
   fastify.get(`${opts.baseURL || ''}/:file`, (req, reply) => {
@@ -28,15 +36,15 @@ function assetsCompiler (fastify, opts, next) {
       case 'html':
         return reply
           .header('content-type', 'text/html')
-          .send(assets.html())
+          .send(assets.html(req.req, req.res))
       case 'css':
         return reply
           .header('content-type', 'text/css')
-          .send(assets.css())
+          .send(assets.css(req.req, req.res))
       case 'js':
         return reply
           .header('content-type', 'text/javascript')
-          .send(assets.js())
+          .send(assets.js(req.req, req.res))
       default:
         return reply
           .code(404)
@@ -47,4 +55,4 @@ function assetsCompiler (fastify, opts, next) {
   next()
 }
 
-module.exports = fp(assetsCompiler, '>=0.13.1')
+module.exports = fp(assetsCompiler, '>=0.27.0')

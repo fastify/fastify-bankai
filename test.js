@@ -14,7 +14,7 @@ test('Should expose a route with the assets', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', options }
+    { entry: './client.js', options }
   )
 
   fastify.inject({
@@ -57,7 +57,7 @@ test('should handle a base url', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', baseURL: '/test', options }
+    { entry: './client.js', baseURL: '/test', options }
   )
 
   fastify.inject({
@@ -75,7 +75,7 @@ test('should handle a given html file', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', html: './index.html', options }
+    { entry: './client.js', html: './index.html', options }
   )
 
   fastify.inject({
@@ -93,7 +93,7 @@ test('should return 404 if an assets is not found', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entryFile: './client.js', options }
+    { entry: './client.js', options }
   )
 
   fastify.inject({

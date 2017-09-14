@@ -3,7 +3,7 @@
 const fastify = require('fastify')()
 
 fastify.register(require('./index'), {
-  entryFile: './client.js',
+  entry: './client.js',
   html: './index.html'
 })
 

@@ -17,6 +17,7 @@ function assetsCompiler (fastify, opts, next) {
     return next(new Error('html must be a string'))
   }
 
+  delete opts.prefix
   const html = !!opts.html
   const htmlPath = resolve(opts.html || '')
   const assets = bankai(resolve(opts.entry || ''), opts)

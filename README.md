@@ -1,7 +1,7 @@
 # fastify-bankai
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)  [![Build Status](https://travis-ci.org/fastify/fastify-bankai.svg?branch=master)](https://travis-ci.org/fastify/fastify-bankai) [![Greenkeeper badge](https://badges.greenkeeper.io/fastify/fastify-bankai.svg)](https://greenkeeper.io/)
 
-If you need to compile (browserify style!) your code, this plugin is for you! 
+If you need to compile (browserify style!) your code, this plugin is for you!
 Internally it uses [bankai](https://github.com/yoshuawuyts/bankai), so refer to its documentation for the options.
 
 **fastify-bankai** will automatically live-reload your HTML and
@@ -19,7 +19,7 @@ Simply require this plugin, pass the entry file and you are done!
 const fastify = require('fastify')()
 
 fastify.register(require('fastify-bankai'), {
-  entryFile: './client.js'
+  entry: './client.js'
 })
 
 fastify.listen(3000, err => {
@@ -37,10 +37,8 @@ the automatic watch mode:
 const fastify = require('fastify')()
 
 fastify.register(require('fastify-bankai'), {
-  entryFile: './client.js',
-  options: {
-    watch: false
-  }
+  entry: './client.js',
+  watch: false
 })
 
 fastify.listen(3000, err => {
@@ -50,9 +48,10 @@ fastify.listen(3000, err => {
 ```
 
 ## Options
-- `entryFile`: Your application entry point
-- `baseURL`: a custom url, default `'/'`
-- `options`: the options object for bankai
+
+- `entry`: Your application entry point
+
+The option object is passed directly to bankai.
 
 ## Acknowledgements
 

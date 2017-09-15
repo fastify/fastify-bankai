@@ -1,6 +1,6 @@
 {
   "name": "fastify-bankai",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Bankai assets compiler for Fastify",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fastify/fastify-pigeon.git"
+    "url": "git+https://github.com/fastify/fastify-bankai.git"
   },
   "keywords": [
     "browserify",
@@ -23,9 +23,9 @@
   "author": "Tomas Della Vedova - @delvedor (http://delved.org)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fastify/fastify-pigeon/issues"
+    "url": "https://github.com/fastify/fastify-bankai/issues"
   },
-  "homepage": "https://github.com/fastify/fastify-pigeon#readme",
+  "homepage": "https://github.com/fastify/fastify-bankai#readme",
   "devDependencies": {
     "fastify": "^0.27.0",
     "pre-commit": "^1.2.2",

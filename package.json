@@ -1,6 +1,6 @@
 {
-  "name": "fastify-pigeon",
-  "version": "0.2.1",
+  "name": "fastify-bankai",
+  "version": "0.3.0",
   "description": "Bankai assets compiler for Fastify",
   "main": "index.js",
   "scripts": {

@@ -3,6 +3,7 @@
 const createReadStream = require('fs').createReadStream
 const resolve = require('path').resolve
 const bankai = require('bankai')
+const fp = require('fastify-plugin')
 
 function assetsCompiler (fastify, opts, next) {
   if (!opts.entry) {
@@ -15,18 +16,23 @@ function assetsCompiler (fastify, opts, next) {
     return next(new Error('html must be a string'))
   }
 
+  var prefix = (opts.prefix || '').replace(/^\/?(.*)\/+$/, '/$1')
   delete opts.prefix
   const html = !!opts.html
   const htmlPath = resolve(opts.html || '')
   const assets = bankai(resolve(opts.entry || ''), opts)
 
-  fastify.get('/', (req, reply) => {
+  if (prefix && prefix.indexOf('/') !== 0) {
+    prefix = '/' + prefix
+  }
+
+  fastify.get(`${prefix || '/'}`, (req, reply) => {
     reply
       .header('Content-Type', 'text/html')
       .send(html ? createReadStream(htmlPath) : assets.html(req.req, reply.res))
   })
 
-  fastify.get('/:file', (req, reply) => {
+  fastify.get(`${prefix}/:file`, (req, reply) => {
     switch (req.params.file.split('.').pop()) {
       case 'html':
         return reply
@@ -50,6 +56,4 @@ function assetsCompiler (fastify, opts, next) {
   next()
 }
 
-// do not use fastify-plugin because this needs to be
-// wrapped in its own scope to support prefix
-module.exports = assetsCompiler
+module.exports = fp(assetsCompiler, '>= 0.27.0')

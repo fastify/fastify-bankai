@@ -50,6 +50,8 @@ fastify.listen(3000, err => {
 ## Options
 
 - `entry`: Your application entry point
+- `prefix`: prefix all paths served by fastify-bankai with the given
+  path
 
 The option object is passed directly to bankai.
 

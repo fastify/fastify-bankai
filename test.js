@@ -49,47 +49,54 @@ test('Should expose a route with the assets', t => {
   })
 })
 
-test('should handle a prefix (via fastify)', t => {
-  t.plan(8)
+function testPrefix (prefix) {
+  test('should handle a prefix: ' + prefix, t => {
+    t.plan(8)
 
-  const fastify = Fastify()
-  fastify.register(
-    require('./index'),
-    { entry: './client.js', prefix: '/test', watch: false }
-  )
+    const fastify = Fastify()
+    fastify.register(
+      require('./index'),
+      { entry: './client.js', prefix, watch: false }
+    )
 
-  fastify.inject({
-    url: '/test',
-    method: 'GET'
-  }, res => {
-    t.equal(res.statusCode, 200)
-    t.equal(res.payload, html)
+    fastify.inject({
+      url: '/test',
+      method: 'GET'
+    }, res => {
+      t.equal(res.statusCode, 200)
+      t.equal(res.payload, html)
+    })
+
+    fastify.inject({
+      url: '/test/index.html',
+      method: 'GET'
+    }, res => {
+      t.equal(res.statusCode, 200)
+      t.equal(res.headers['content-type'], 'text/html')
+    })
+
+    fastify.inject({
+      url: '/test/bundle.css',
+      method: 'GET'
+    }, res => {
+      t.equal(res.statusCode, 200)
+      t.equal(res.headers['content-type'], 'text/css')
+    })
+
+    fastify.inject({
+      url: '/test/bundle.js',
+      method: 'GET'
+    }, res => {
+      t.equal(res.statusCode, 200)
+      t.equal(res.headers['content-type'], 'text/javascript')
+    })
   })
+}
 
-  fastify.inject({
-    url: '/test/index.html',
-    method: 'GET'
-  }, res => {
-    t.equal(res.statusCode, 200)
-    t.equal(res.headers['content-type'], 'text/html')
-  })
-
-  fastify.inject({
-    url: '/test/bundle.css',
-    method: 'GET'
-  }, res => {
-    t.equal(res.statusCode, 200)
-    t.equal(res.headers['content-type'], 'text/css')
-  })
-
-  fastify.inject({
-    url: '/test/bundle.js',
-    method: 'GET'
-  }, res => {
-    t.equal(res.statusCode, 200)
-    t.equal(res.headers['content-type'], 'text/javascript')
-  })
-})
+testPrefix('/test')
+testPrefix('/test/')
+testPrefix('test')
+testPrefix('test/')
 
 test('should handle a given html file', t => {
   t.plan(2)

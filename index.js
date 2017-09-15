@@ -25,7 +25,7 @@ function assetsCompiler (fastify, opts, next) {
   fastify.get('/', (req, reply) => {
     reply
       .header('Content-Type', 'text/html')
-      .send(html ? createReadStream(htmlPath) : assets.html(req.req, req.res))
+      .send(html ? createReadStream(htmlPath) : assets.html(req.req, reply.res))
   })
 
   fastify.get('/:file', (req, reply) => {

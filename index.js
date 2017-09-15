@@ -7,7 +7,6 @@ const fp = require('fastify-plugin')
 const bankai = require('bankai')
 
 function assetsCompiler (fastify, opts, next) {
-  opts.options = opts.options || {}
   if (!opts.entry) {
     return next(new Error('Missing entry file!'))
   }
@@ -17,34 +16,31 @@ function assetsCompiler (fastify, opts, next) {
   if (opts.html && typeof opts.html !== 'string') {
     return next(new Error('html must be a string'))
   }
-  if (typeof opts.options !== 'object') {
-    return next(new Error('options must be an object'))
-  }
 
   const html = !!opts.html
   const htmlPath = resolve(opts.html || '')
-  const assets = bankai(resolve(opts.entry || ''), opts.options)
+  const assets = bankai(resolve(opts.entry || ''), opts)
 
-  fastify.get(opts.baseURL || '/', (req, reply) => {
+  fastify.get('/', (req, reply) => {
     reply
       .header('Content-Type', 'text/html')
       .send(html ? createReadStream(htmlPath) : assets.html(req.req, req.res))
   })
 
-  fastify.get(`${opts.baseURL || ''}/:file`, (req, reply) => {
+  fastify.get('/:file', (req, reply) => {
     switch (req.params.file.split('.').pop()) {
       case 'html':
         return reply
           .header('content-type', 'text/html')
-          .send(assets.html(req.req, req.res))
+          .send(assets.html(req.req, reply.res))
       case 'css':
         return reply
           .header('content-type', 'text/css')
-          .send(assets.css(req.req, req.res))
+          .send(assets.css(req.req, reply.res))
       case 'js':
         return reply
           .header('content-type', 'text/javascript')
-          .send(assets.js(req.req, req.res))
+          .send(assets.js(req.req, reply.res))
       default:
         return reply
           .code(404)
@@ -55,4 +51,6 @@ function assetsCompiler (fastify, opts, next) {
   next()
 }
 
-module.exports = fp(assetsCompiler, '>=0.27.0')
+// do not use fastify-plugin because this needs to be
+// wrapped in its own scope to support prefix
+module.exports = assetsCompiler

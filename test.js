@@ -6,15 +6,13 @@ const fs = require('fs')
 const Fastify = require('fastify')
 const html = fs.readFileSync('./index.html', 'utf8')
 
-const options = { watch: false }
-
 test('Should expose a route with the assets', t => {
   t.plan(9)
 
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entry: './client.js', options }
+    { entry: './client.js', watch: false }
   )
 
   fastify.inject({
@@ -51,13 +49,13 @@ test('Should expose a route with the assets', t => {
   })
 })
 
-test('should handle a base url', t => {
-  t.plan(2)
+test('should handle a prefix (via fastify)', t => {
+  t.plan(8)
 
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entry: './client.js', baseURL: '/test', options }
+    { entry: './client.js', prefix: '/test', watch: false }
   )
 
   fastify.inject({
@@ -67,6 +65,30 @@ test('should handle a base url', t => {
     t.equal(res.statusCode, 200)
     t.equal(res.payload, html)
   })
+
+  fastify.inject({
+    url: '/test/index.html',
+    method: 'GET'
+  }, res => {
+    t.equal(res.statusCode, 200)
+    t.equal(res.headers['content-type'], 'text/html')
+  })
+
+  fastify.inject({
+    url: '/test/bundle.css',
+    method: 'GET'
+  }, res => {
+    t.equal(res.statusCode, 200)
+    t.equal(res.headers['content-type'], 'text/css')
+  })
+
+  fastify.inject({
+    url: '/test/bundle.js',
+    method: 'GET'
+  }, res => {
+    t.equal(res.statusCode, 200)
+    t.equal(res.headers['content-type'], 'text/javascript')
+  })
 })
 
 test('should handle a given html file', t => {
@@ -75,7 +97,7 @@ test('should handle a given html file', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entry: './client.js', html: './index.html', options }
+    { entry: './client.js', html: './index.html', watch: false }
   )
 
   fastify.inject({
@@ -93,7 +115,7 @@ test('should return 404 if an assets is not found', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entry: './client.js', options }
+    { entry: './client.js', watch: false }
   )
 
   fastify.inject({

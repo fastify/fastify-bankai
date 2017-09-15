@@ -4,7 +4,7 @@
   "description": "Bankai assets compiler for Fastify",
   "main": "index.js",
   "scripts": {
-    "test": "tap test.js"
+    "test": "standard && tap test.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/fastify/fastify-pigeon#readme",
   "devDependencies": {
     "fastify": "^0.27.0",
+    "pre-commit": "^1.2.2",
     "shot": "^3.4.2",
     "standard": "^10.0.3",
     "tap": "^10.7.0"

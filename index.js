@@ -1,9 +1,7 @@
 'use strict'
 
-const assert = require('assert')
 const createReadStream = require('fs').createReadStream
 const resolve = require('path').resolve
-const fp = require('fastify-plugin')
 const bankai = require('bankai')
 
 function assetsCompiler (fastify, opts, next) {

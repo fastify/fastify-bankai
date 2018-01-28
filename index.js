@@ -20,6 +20,12 @@ function fastifyBankai (fastify, opts, next) {
   delete opts.prefix
   const html = !!opts.html
   const htmlPath = resolve(opts.html || '')
+
+  // be quiet by default
+  if (opts.quiet === undefined) {
+    opts.quiet = true
+  }
+
   const compiler = bankai(resolve(opts.entry), opts)
 
   if (prefix && prefix.indexOf('/') !== 0) {

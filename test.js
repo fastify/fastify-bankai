@@ -10,7 +10,7 @@ test('expose a route with the assets', t => {
   const fastify = Fastify()
   fastify.register(
     require('./index'),
-    { entry: './client.js', watch: false, quiet: true }
+    { entry: './client.js', watch: false }
   )
   t.teardown(fastify.close.bind(fastify))
 
@@ -128,26 +128,28 @@ test('return 404 if an assets is not found', t => {
   })
 })
 
-test('close if watch is true', t => {
-  t.plan(4)
+if (!process.env.TRAVIS) {
+  test('close if watch is true', t => {
+    t.plan(4)
 
-  const fastify = Fastify()
-  fastify.register(
-    require('./index'),
-    { entry: './client.js' }
-  )
-  t.teardown(fastify.close.bind(fastify))
+    const fastify = Fastify()
+    fastify.register(
+      require('./index'),
+      { entry: './client.js' }
+    )
+    t.teardown(fastify.close.bind(fastify))
 
-  fastify.inject({
-    url: '/',
-    method: 'GET'
-  }, (err, res) => {
-    t.error(err)
-    t.equal(res.statusCode, 200)
-    t.matchSnapshot(res.payload)
-    t.equal(res.headers['content-type'], 'text/html')
+    fastify.inject({
+      url: '/',
+      method: 'GET'
+    }, (err, res) => {
+      t.error(err)
+      t.equal(res.statusCode, 200)
+      t.matchSnapshot(res.payload)
+      t.equal(res.headers['content-type'], 'text/html')
+    })
   })
-})
+}
 
 test('error if entry is missing', t => {
   t.plan(2)

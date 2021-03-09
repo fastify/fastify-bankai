@@ -4,7 +4,8 @@
   "description": "Bankai assets compiler for Fastify",
   "main": "index.js",
   "scripts": {
-    "test": "standard && tap test.js"
+    "test": "standard && tap test.js",
+    "test:ci": "standard && tap test.js --coverage-report=lcovonly"
   },
   "repository": {
     "type": "git",
